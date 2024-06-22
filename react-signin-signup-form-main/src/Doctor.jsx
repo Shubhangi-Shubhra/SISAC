@@ -16,7 +16,9 @@ function Doctor() {
         location: '',
         yearsOfService: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        specialization: '', 
+        availability: ''    
     });
     const [loginData, setLoginData] = useState({
         email: '',
@@ -40,15 +42,37 @@ function Doctor() {
             location: '',
             yearsOfService: '',
             password: '',
-            confirmPassword: ''
+            confirmPassword: '',
+            specialization: '', 
+            availability: ''  
         });
     };
 
-    const handleLoginSubmit = (event) => {
+    const handleLoginSubmit = async (event) => {
         event.preventDefault(); 
         console.log('Login Form Data:', loginData);
 
-        navigate('/successlogin');
+        try {
+            const response = await fetch('/login/doctor', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(loginData),
+            });
+
+            if (response.ok) {
+        
+                alert("Login successful");
+                navigate('/successlogin'); 
+            } else {
+               
+                alert("Login failed");
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            alert("An error occurred");
+        }
 
         setLoginData({
             email: '',
@@ -68,14 +92,14 @@ function Doctor() {
     return (
         <Components.Container>
             <Components.SignUpContainer signinIn={signIn}>
-                <Components.Form style={{ width: '320px' }} onSubmit={handleRegistrationSubmit}>
+                <Components.Form style={{ width: '320px'}} onSubmit={handleRegistrationSubmit}>
                     <Components.Title>Registration form Doctor</Components.Title>
                     <Components.Input
                         type='text'
                         name='name'
                         value={registrationData.name}
                         placeholder='Name'
-                        style={{ width: '100%' }}
+                        style={{ width: '100%', height: '30px' }}
                         onChange={(e) => handleInputChange(e, 'registration')}
                     />
                     <Components.Input
@@ -83,7 +107,7 @@ function Doctor() {
                         name='email'
                         value={registrationData.email}
                         placeholder='Email'
-                        style={{ width: '100%' }}
+                        style={{ width: '100%', height: '30px' }} 
                         onChange={(e) => handleInputChange(e, 'registration')}
                     />
                     <Components.Input
@@ -91,7 +115,7 @@ function Doctor() {
                         name='phoneNumber'
                         value={registrationData.phoneNumber}
                         placeholder='Phone Number'
-                        style={{ width: '100%' }}
+                        style={{ width: '100%', height: '30px' }} 
                         onChange={(e) => handleInputChange(e, 'registration')}
                     />
                     <Components.Input
@@ -99,7 +123,7 @@ function Doctor() {
                         name='location'
                         value={registrationData.location}
                         placeholder='Location'
-                        style={{ width: '100%' }}
+                        style={{ width: '100%', height: '30px' }} 
                         onChange={(e) => handleInputChange(e, 'registration')}
                     />
                     <Components.Input
@@ -107,7 +131,23 @@ function Doctor() {
                         name='yearsOfService'
                         value={registrationData.yearsOfService}
                         placeholder='Years of Service'
-                        style={{ width: '100%' }}
+                        style={{ width: '100%', height: '30px' }} 
+                        onChange={(e) => handleInputChange(e, 'registration')}
+                    />
+                    <Components.Input
+                        type='text'
+                        name='specialization'
+                        value={registrationData.specialization}
+                        placeholder='Specialization'
+                        style={{ width: '100%', height: '30px' }} 
+                        onChange={(e) => handleInputChange(e, 'registration')}
+                    />
+                    <Components.Input
+                        type='text'
+                        name='availability'
+                        value={registrationData.availability}
+                        placeholder='Availability'
+                        style={{ width: '100%', height: '30px' }} 
                         onChange={(e) => handleInputChange(e, 'registration')}
                     />
                     <div style={{ position: 'relative', width: '100%' }}>
@@ -116,7 +156,7 @@ function Doctor() {
                             name='password'
                             value={registrationData.password}
                             placeholder='Password'
-                            style={{ width: '100%' }}
+                            style={{ width: '100%', height: '30px' }}
                             onChange={(e) => handleInputChange(e, 'registration')}
                         />
                         <Icon
@@ -137,7 +177,7 @@ function Doctor() {
                             name='confirmPassword'
                             value={registrationData.confirmPassword}
                             placeholder='Confirm Password'
-                            style={{ width: '100%' }}
+                            style={{ width: '100%', height: '30px' }} 
                             onChange={(e) => handleInputChange(e, 'registration')}
                         />
                         <Icon
@@ -164,6 +204,7 @@ function Doctor() {
                         name='email'
                         value={loginData.email}
                         placeholder='Email'
+                        style={{ width: '100%', height: '30px' }} 
                         onChange={(e) => handleInputChange(e, 'login')}
                     />
                     <div style={{ position: 'relative', width: '100%' }}>
@@ -172,7 +213,7 @@ function Doctor() {
                             name='password'
                             value={loginData.password}
                             placeholder='Password'
-                            style={{ width: '100%' }}
+                            style={{ width: '100%', height: '30px' }} 
                             onChange={(e) => handleInputChange(e, 'login')}
                         />
                         <Icon
